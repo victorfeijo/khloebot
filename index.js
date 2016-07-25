@@ -10,3 +10,8 @@ bot.onText(/\/e (hello)/, function(msg, match) {
   resp = handler.hello(match);
   bot.sendMessage(msg.from.id, resp);
 });
+
+bot.onText(/\/e (ru)/, function(msg, match) {
+  resp = handler.ru();
+  bot.sendMessage(msg.from.id, resp);
+});
