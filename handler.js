@@ -1,19 +1,27 @@
 const request = require('request');
-var Handler = function() {};
 
-Handler.prototype.hello = function(match) {
-  var resp = match[1];
+let Handler = function() {};
 
-  return resp;
+Handler.prototype.hello = function(match, bot, msg) {
+  let resp = match[1];
+
+  bot.sendMessage(msg.from.id, resp);
 };
 
-Handler.prototype.ru = function() {
-  request('https://ru.legat.ml/?json', function(error, response, body) {
+Handler.prototype.ru = function(bot, msg) {
+  request('https://voucomerno.ru/menu.json', function(error, response, body) {
     if (!error && response.statusCode == 200){
-        return JSON.parse(body);
-    }
+      let menu = JSON.parse(body);
+      let parsedMenu = menu.main + '\n' +
+                       menu.complement + '\n' +
+                       menu.salad + '\n' +
+                       menu.dessert
 
-    return 'error?';
+      bot.sendMessage(msg.from.id, parsedMenu);
+    }
+    else {
+      bot.sendMessage(msg.from.id, 'Failed :(')
+    }
   })
 };
 
