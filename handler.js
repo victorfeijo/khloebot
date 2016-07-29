@@ -25,4 +25,19 @@ Handler.prototype.ru = function(bot, msg) {
   })
 };
 
+Handler.prototype.tip = function(bot, msg) {
+  request({
+    headers: {
+      "X-Mashape-Key": "zFM4272ikMmshzZ16RhJLcTqS7yAp1pcZR8jsnTZ9e5qld2aZn",
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Accept": "application/json"
+    }
+             ,
+             uri: "https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies",
+             methid: "POST"
+  }, function(err, res, body) {
+    console.log(body)
+  })
+};
+
 module.exports = Handler;

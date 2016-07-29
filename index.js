@@ -13,3 +13,7 @@ bot.onText(/\/e (hello)/, function(msg, match) {
 bot.onText(/(ru)/, function(msg, match) {
   handler.ru(bot, msg);
 });
+
+bot.onText(/(tip)/, function(msg, match) {
+  handler.tip(bot, msg);
+});
