@@ -69,7 +69,6 @@ class Handler {
     }, function(error, response, body) {
       if (!error && response.statusCode == 200){
         let result = JSON.parse(body);
-        console.log(result);
         let parsedResult = result.RelatedTopics[0].Text;
 
         bot.sendMessage(msg.from.id, parsedResult);
