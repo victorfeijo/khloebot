@@ -14,9 +14,14 @@ class Handler {
 
   ru(msg) {
     let bot = this.bot;
-    request('https://voucomerno.ru/menu.json', function(error, response, body) {
+    request('https://voucomerno.ru/menu.json', (error, response, body) => {
       if (!error && response.statusCode == 200){
         let menu = JSON.parse(body);
+
+        if (!menu) {
+          return bot.sendMessage(msg.from.id, 'No Results');
+        }
+
         let parsedMenu = menu.main + '\n' +
                         menu.complement + '\n' +
                         menu.salad + '\n' +
@@ -41,7 +46,7 @@ class Handler {
       uri: "https://andruxnet-random-famous-quotes.p.mashape.com/",
       form: { cat: 'famous' },
       method: "POST"
-    }, function(error, response, body) {
+    }, (error, response, body) => {
       if (!error && response.statusCode == 200){
         let tip = JSON.parse(body);
         let parsedTip = tip.quote + '\n' +
@@ -66,7 +71,7 @@ class Handler {
       uri: "https://duckduckgo-duckduckgo-zero-click-info.p.mashape.com/",
       form: { format: 'json', q: match[1] },
       method: "POST"
-    }, function(error, response, body) {
+    }, (error, response, body) => {
       if (!error && response.statusCode == 200){
         let result = JSON.parse(body);
         let parsedResult = result.RelatedTopics[0].Text;
