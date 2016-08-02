@@ -1,14 +1,14 @@
 const request = require('request');
 
+const mashapeHeaders = {
+  "X-Mashape-Key": "zFM4272ikMmshzZ16RhJLcTqS7yAp1pcZR8jsnTZ9e5qld2aZn",
+  "Content-Type": "application/x-www-form-urlencoded",
+  "Accept": "application/json",
+};
+
 class Handler {
 
   constructor(bot) {
-    const mashapeHeaders = {
-      "X-Mashape-Key": "zFM4272ikMmshzZ16RhJLcTqS7yAp1pcZR8jsnTZ9e5qld2aZn",
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Accept": "application/json",
-    };
-
     this.bot = bot;
   }
 
