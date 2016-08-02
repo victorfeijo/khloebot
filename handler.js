@@ -3,6 +3,12 @@ const request = require('request');
 class Handler {
 
   constructor(bot) {
+    const mashapeHeaders = {
+      "X-Mashape-Key": "zFM4272ikMmshzZ16RhJLcTqS7yAp1pcZR8jsnTZ9e5qld2aZn",
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Accept": "application/json",
+    };
+
     this.bot = bot;
   }
 
@@ -38,17 +44,18 @@ class Handler {
   tip(msg) {
     let bot = this.bot;
     request({
-      headers: {
-        "X-Mashape-Key": "zFM4272ikMmshzZ16RhJLcTqS7yAp1pcZR8jsnTZ9e5qld2aZn",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json"
-      },
+      headers: mashapeHeaders,
       uri: "https://andruxnet-random-famous-quotes.p.mashape.com/",
       form: { cat: 'famous' },
       method: "POST"
     }, (error, response, body) => {
       if (!error && response.statusCode == 200){
         let tip = JSON.parse(body);
+
+        if (!tip) {
+          return bot.sendMessage(msg.from.id, 'No Results');
+        }
+
         let parsedTip = tip.quote + '\n' +
                         'Author: ' + tip.author;
 
@@ -63,19 +70,19 @@ class Handler {
   whatIs(msg, match) {
     let bot = this.bot;
     request({
-      headers: {
-        "X-Mashape-Key": "zFM4272ikMmshzZ16RhJLcTqS7yAp1pcZR8jsnTZ9e5qld2aZn",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json"
-      },
+      headers: mashapeHeaders,
       uri: "https://duckduckgo-duckduckgo-zero-click-info.p.mashape.com/",
       form: { format: 'json', q: match[1] },
       method: "POST"
     }, (error, response, body) => {
       if (!error && response.statusCode == 200){
         let result = JSON.parse(body);
-        let parsedResult = result.RelatedTopics[0].Text;
 
+        if (!result.RelatedTopics[0]) {
+          return bot.sendMessage(msg.from.id, 'No Results');
+        }
+
+        let parsedResult = result.RelatedTopics[0].Text;
         bot.sendMessage(msg.from.id, parsedResult);
       }
       else {
